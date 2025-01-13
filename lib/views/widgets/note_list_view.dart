@@ -8,15 +8,15 @@ class NoteListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) {
-        return SizedBox(
+        return const SizedBox(
           height: 15,
         );
       },
       itemCount: 10,
       itemBuilder: (context, index) {
-        return NoteItem();
+        return const NoteItem();
       },
     );
   }
