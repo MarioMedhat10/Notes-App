@@ -7,7 +7,14 @@ class EditNoteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: EditNoteViewBody(),
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: 40,
+          right: 24,
+          left: 24,
+        ),
+        child: EditNoteViewBody(),
+      ),
     );
   }
 }
