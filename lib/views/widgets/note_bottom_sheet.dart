@@ -13,26 +13,67 @@ class NoteBottomSheet extends StatelessWidget {
         horizontal: 16,
       ),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CustomTextField(
-              hintText: 'Title',
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            CustomTextField(
-              hintText: 'Content',
-              maxLines: 5,
-            ),
-            SizedBox(
-              height: 64,
-            ),
-            CustomButton(
-              text: 'Add',
-            ),
-          ],
-        ),
+        child: AddNoteForm(),
+      ),
+    );
+  }
+}
+
+class AddNoteForm extends StatefulWidget {
+  const AddNoteForm({
+    super.key,
+  });
+
+  @override
+  State<AddNoteForm> createState() => _AddNoteFormState();
+}
+
+class _AddNoteFormState extends State<AddNoteForm> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
+  String? title, content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      autovalidateMode: autoValidateMode,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            onSaved: (value) {
+              title = value!.trim();
+            },
+            hintText: 'Title',
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextFormField(
+            onSaved: (value) {
+              content = value!.trim();
+            },
+            hintText: 'Content',
+            maxLines: 5,
+          ),
+          const SizedBox(
+            height: 45,
+          ),
+          CustomButton(
+            onTap:(){
+              if (formKey.currentState!.validate()){
+                formKey.currentState!.save();
+              } else {
+                autoValidateMode = AutovalidateMode.always;
+                setState(() {
+
+                });
+              }
+            },
+            text: 'Add',
+          ),
+        ],
       ),
     );
   }
