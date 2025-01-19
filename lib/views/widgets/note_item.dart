@@ -20,7 +20,9 @@ class NoteItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const EditNoteView(),
+            builder: (context) => EditNoteView(
+              noteModel: noteModel,
+            ),
           ),
         );
       },
@@ -59,7 +61,7 @@ class NoteItem extends StatelessWidget {
                 ),
               ),
               trailing: IconButton(
-                onPressed: ()  async {
+                onPressed: () async {
                   await noteModel.delete();
 
                   BlocProvider.of<NotesCubit>(context).fetchAllNotes();
