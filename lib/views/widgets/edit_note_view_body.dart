@@ -18,29 +18,25 @@ class EditNoteViewBody extends StatefulWidget {
 }
 
 class _EditNoteViewBodyState extends State<EditNoteViewBody> {
-  String? title, content;
+  TextEditingController title = TextEditingController();
+  TextEditingController content = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    title.text = widget.noteModel.title;
+    content.text = widget.noteModel.content;
+
     return Column(
       children: [
         CustomAppBar(
           title: 'Edit Note',
           icon: Icons.done,
           onPressed: () async {
-            if (title != null ||
-                title != '' ||
-                title != widget.noteModel.title) {
-              widget.noteModel.title = title ?? widget.noteModel.title;
-            }
-
-            if (content != null ||
-                content != '' ||
-                content != widget.noteModel.content) {
-              widget.noteModel.content = content ?? widget.noteModel.content;
-            }
-
-            await widget.noteModel.save();
+            await saveNote(
+              title: title.text,
+              content: content.text,
+              widget: widget,
+            );
             BlocProvider.of<NotesCubit>(context).fetchAllNotes();
 
             Navigator.pop(context);
@@ -51,8 +47,9 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
         ),
         CustomTextFormField(
           hintText: 'Title',
+          controller: title,
           onChanged: (value) {
-            title = value.trim();
+            title.text = value.trim();
           },
         ),
         const SizedBox(
@@ -60,12 +57,31 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
         ),
         CustomTextFormField(
           hintText: 'Content',
+          controller: content,
           onChanged: (value) {
-            content = value.trim();
+            content.text = value.trim();
           },
           maxLines: 5,
         ),
       ],
     );
+  }
+
+  Future<void> saveNote({
+    String? title,
+    String? content,
+    required EditNoteViewBody widget,
+  }) async {
+    if (title != null || title != '' || title != widget.noteModel.title) {
+      widget.noteModel.title = title ?? widget.noteModel.title;
+    }
+
+    if (content != null ||
+        content != '' ||
+        content != widget.noteModel.content) {
+      widget.noteModel.content = content ?? widget.noteModel.content;
+    }
+
+    await widget.noteModel.save();
   }
 }
