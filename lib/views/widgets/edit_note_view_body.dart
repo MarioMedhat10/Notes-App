@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notes_app/methods/validate_and_edit_note_model.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_app_bar.dart';
 import 'package:notes_app/views/widgets/custom_text_field.dart';
@@ -32,7 +33,7 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
           title: 'Edit Note',
           icon: Icons.done,
           onPressed: () async {
-            await saveNote(
+            await validateAndEditNoteModel(
               title: title.text,
               content: content.text,
               widget: widget,
@@ -49,7 +50,7 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
           hintText: 'Title',
           controller: title,
           onChanged: (value) {
-            title.text = value.trim();
+            title.text = value;
           },
         ),
         const SizedBox(
@@ -59,7 +60,7 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
           hintText: 'Content',
           controller: content,
           onChanged: (value) {
-            content.text = value.trim();
+            content.text = value;
           },
           maxLines: 5,
         ),
@@ -67,21 +68,5 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
     );
   }
 
-  Future<void> saveNote({
-    String? title,
-    String? content,
-    required EditNoteViewBody widget,
-  }) async {
-    if (title != null || title != '' || title != widget.noteModel.title) {
-      widget.noteModel.title = title ?? widget.noteModel.title;
-    }
 
-    if (content != null ||
-        content != '' ||
-        content != widget.noteModel.content) {
-      widget.noteModel.content = content ?? widget.noteModel.content;
-    }
-
-    await widget.noteModel.save();
-  }
 }
