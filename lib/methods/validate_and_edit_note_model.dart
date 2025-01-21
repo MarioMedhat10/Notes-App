@@ -1,6 +1,6 @@
 import 'package:notes_app/views/widgets/edit_note_view_body.dart';
 
-Future<void> saveNote({
+Future<void> validateAndEditNoteModel({
   String? title,
   String? content,
   required EditNoteViewBody widget,

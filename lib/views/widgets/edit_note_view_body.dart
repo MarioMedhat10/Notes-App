@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
-import 'package:notes_app/methods/save_note.dart';
+import 'package:notes_app/methods/validate_and_edit_note_model.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/custom_app_bar.dart';
 import 'package:notes_app/views/widgets/custom_text_field.dart';
@@ -33,7 +33,7 @@ class _EditNoteViewBodyState extends State<EditNoteViewBody> {
           title: 'Edit Note',
           icon: Icons.done,
           onPressed: () async {
-            await saveNote(
+            await validateAndEditNoteModel(
               title: title.text,
               content: content.text,
               widget: widget,
