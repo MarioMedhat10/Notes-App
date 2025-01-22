@@ -32,5 +32,5 @@ class NoteModel extends HiveObject {
     required this.content,
     required this.date,
     required this.color,
-  }) : id = Uuid().v4();
+  }) : id = const Uuid().v4();
 }
