@@ -39,9 +39,9 @@ class _BuildSearchResultsState extends State<BuildSearchResults> {
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(
-            top: 10,
-            right: 10,
-            left: 10,
+            top: 15,
+            right: 24,
+            left: 24,
           ),
           child: ListView.separated(
             padding: EdgeInsets.zero,
