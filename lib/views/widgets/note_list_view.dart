@@ -14,6 +14,8 @@ class NoteListView extends StatelessWidget {
         List<NoteModel> notes =
             BlocProvider.of<NotesCubit>(context).notes ?? [];
 
+        notes.sort((a, b) => b.date.compareTo(a.date));
+
         return ListView.separated(
           padding: EdgeInsets.zero,
           physics: const BouncingScrollPhysics(),
