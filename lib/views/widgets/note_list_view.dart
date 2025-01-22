@@ -26,6 +26,11 @@ class NoteListView extends StatelessWidget {
           itemBuilder: (context, index) {
             return NoteItem(
               noteModel: notes[index],
+              onDelete: () async {
+                await notes[index].delete();
+
+                BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+              },
             );
           },
         );
