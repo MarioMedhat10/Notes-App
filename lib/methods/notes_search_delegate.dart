@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/methods/get_note_titles.dart';
+import 'package:notes_app/models/note_model.dart';
+import 'package:notes_app/views/widgets/note_item.dart';
 
 class NoteSearchDelegate extends SearchDelegate<String> {
-  final List<String> notes;
+  final List<NoteModel> notes;
 
   NoteSearchDelegate(this.notes);
 
@@ -29,32 +32,44 @@ class NoteSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final results = notes.where((note) => note.contains(query)).toList();
+    final List<NoteModel> results =
+        notes.where((NoteModel note) => note.title.contains(query)).toList();
 
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(results[index]),
-          onTap: () {
-            close(context, results[index]);
-          },
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10,
+        right: 10,
+        left: 10,
+      ),
+      child: ListView.separated(
+        padding: EdgeInsets.zero,
+        physics: const BouncingScrollPhysics(),
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(
+            height: 15,
+          );
+        },
+        itemCount: results.length,
+        itemBuilder: (context, index) {
+          return NoteItem(noteModel: results[index]);
+        },
+      ),
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = notes.where((note) => note.contains(query)).toList();
+    final suggestions =
+        notes.where((note) => note.title.contains(query)).toList();
+    final List<String> notesTitles = getNoteTitles(suggestions);
 
     return ListView.builder(
-      itemCount: suggestions.length,
+      itemCount: notesTitles.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(suggestions[index]),
+          title: Text(notesTitles[index]),
           onTap: () {
-            query = suggestions[index];
+            query = notesTitles[index];
             showResults(context);
           },
         );
