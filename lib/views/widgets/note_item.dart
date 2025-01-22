@@ -8,10 +8,11 @@ import 'package:notes_app/views/edit_note_view.dart';
 class NoteItem extends StatelessWidget {
   const NoteItem({
     super.key,
-    required this.noteModel,
+    required this.noteModel, required this.onDelete,
   });
 
   final NoteModel noteModel;
+  final void Function()?  onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +62,7 @@ class NoteItem extends StatelessWidget {
                 ),
               ),
               trailing: IconButton(
-                onPressed: () async {
-                  await noteModel.delete();
-
-                  BlocProvider.of<NotesCubit>(context).fetchAllNotes();
-                },
+                onPressed: onDelete,
                 icon: const Icon(
                   FontAwesomeIcons.trash,
                   color: Colors.black,
