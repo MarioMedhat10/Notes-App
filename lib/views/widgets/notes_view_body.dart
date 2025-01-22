@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
+import 'package:notes_app/methods/get_note_titles.dart';
+import 'package:notes_app/methods/notes_search_delegate.dart';
 import 'package:notes_app/views/widgets/custom_app_bar.dart';
 import 'package:notes_app/views/widgets/note_list_view.dart';
 
@@ -21,16 +23,23 @@ class _NotesViewBodyState extends State<NotesViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         CustomAppBar(
           title: 'Notes',
           icon: Icons.search,
+          onPressed: () async {
+            final notes = BlocProvider.of<NotesCubit>(context).notes;
+            await showSearch(
+              context: context,
+              delegate: NoteSearchDelegate(getNoteTitles(notes!)),
+            );
+          },
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Expanded(
+        const Expanded(
           child: NoteListView(),
         ),
       ],
