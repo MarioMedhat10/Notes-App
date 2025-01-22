@@ -27,6 +27,9 @@ class _BuildSearchResultsState extends State<BuildSearchResults> {
     results = widget.notes
         .where((NoteModel note) => note.title.contains(widget.query))
         .toList();
+
+    results.sort((a, b) => b.date.compareTo(a.date));
+
     super.initState();
   }
 
