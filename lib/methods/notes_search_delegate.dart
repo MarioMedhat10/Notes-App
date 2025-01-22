@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/note_model.dart';
-import 'package:notes_app/views/widgets/note_item.dart';
+import 'package:notes_app/views/widgets/build_search_results.dart';
 
 class NoteSearchDelegate extends SearchDelegate<String> {
   final List<NoteModel> notes;
@@ -31,29 +31,7 @@ class NoteSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final List<NoteModel> results =
-        notes.where((NoteModel note) => note.title.contains(query)).toList();
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-        right: 10,
-        left: 10,
-      ),
-      child: ListView.separated(
-        padding: EdgeInsets.zero,
-        physics: const BouncingScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(
-            height: 15,
-          );
-        },
-        itemCount: results.length,
-        itemBuilder: (context, index) {
-          return NoteItem(noteModel: results[index]);
-        },
-      ),
-    );
+    return BuildSearchResults(query: query, notes: notes);
   }
 
   @override
