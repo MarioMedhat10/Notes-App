@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 /*
 * in this part we add the file name (must be the same file name.g.dart) of TypeAdapter which will be
@@ -23,11 +24,13 @@ class NoteModel extends HiveObject {
   final String date;
   @HiveField(3)
   int color;
+  @HiveField(4)
+  String id;
 
   NoteModel({
     required this.title,
     required this.content,
     required this.date,
     required this.color,
-  });
+  }) : id = Uuid().v4();
 }
