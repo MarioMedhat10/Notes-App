@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/methods/get_note_titles.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/widgets/note_item.dart';
 
@@ -61,7 +60,9 @@ class NoteSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     final suggestions =
         notes.where((note) => note.title.contains(query)).toList();
-    final List<String> notesTitles = getNoteTitles(suggestions);
+    final Set<String> uniqueTitles =
+        suggestions.map((note) => note.title).toSet();
+    final List<String> notesTitles = uniqueTitles.toList();
 
     return ListView.builder(
       itemCount: notesTitles.length,
